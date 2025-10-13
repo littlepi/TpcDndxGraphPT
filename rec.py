@@ -68,7 +68,7 @@ def trunc_mean_charge(hits_pos, hits_charge, length, trunc=0.6, layer=1):
 
 def rec(model, input, output, args):
     model = model.to(args.device)
-    dataset = TpcGraphDataset(input, device=args.device, nevt=args.nevt, 
+    dataset = TpcGraphDataset(input, device=args.device, nevt=args.nevt_rec, 
                               outlier_distance=args.outlier_distance, 
                               additional_info=True)
     
@@ -91,7 +91,7 @@ def rec(model, input, output, args):
         outTree.Branch('dedx_rec_trad', dedx_rec_trad, 'dedx_rec_trad/D')
 
     model.eval()
-    for i in tqdm(range(args.nevt)):
+    for i in tqdm(range(args.nevt_rec)):
         track_length[0] = np.max(dataset[i].len.numpy())
         if args.enable_trad_rec:
             pos_idx = 0 if np.max(dataset[i].pos_grid[:, 0].numpy()) - np.min(dataset[i].pos_grid[:, 0].numpy()) > np.max(dataset[i].pos_grid[:, 1].numpy()) - np.min(dataset[i].pos_grid[:, 1].numpy()) else 1
@@ -109,7 +109,7 @@ def rec(model, input, output, args):
         dndx_hit_rec.clear()
         dndx_hit_truth.clear()
         with torch.no_grad():
-            out, _ = model(dataset[i])
+            out = model(dataset[i])
             # pred = None
             for prob in out:
                 prob_hit = prob[1].item()
@@ -141,4 +141,4 @@ def main(args):
         checkpoint = torch.load(args.load_checkpoint, map_location=torch.device(args.device))
         model.load_state_dict(checkpoint['model_state_dict'])
     
-    rec(model, args.dataset_rec, '../samples/rec_{}.root'.format(args.tag), args)
+    rec(model, args.dataset_rec, './data/rec_{}.root'.format(args.tag), args)

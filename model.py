@@ -11,6 +11,8 @@ from torch_geometric.utils import scatter, to_undirected
 
 
 class DotProductTransformerBlock(TransformerConv):
+    """Dot-product transformer block with multi-head attention.
+    """
     def __init__(self, in_channels, out_channels, pos_dims=3, heads=1, dropout=0.0, **kwargs):
         super(DotProductTransformerBlock, self).__init__(
             in_channels, out_channels, heads=heads, dropout=dropout, edge_dim=heads, concat=False, **kwargs)

@@ -99,16 +99,16 @@ def main(args):
     nepoch_tot = start_epoch
     for istage, nepoch in tqdm(enumerate(args.nepoch)):
         for epoch in tqdm(range(nepoch)):
-            loss, metric, loss2, metric2 = train(model=model, 
+            loss, metric = train(model=model, 
                                                  dataloader=dataloader, optimizer=optimizer, 
                                                  class_weight=class_weights_train)
-            loss_test, metric_test, loss2_test, metric2_test = test(model=model,
+            loss_test, metric_test = test(model=model,
                                                                     dataloader=dataloader_test, 
                                                                     class_weight=class_weights_test)
 
             print(f'Epoch {nepoch_tot}:')
-            print(f'  Train Loss: {loss:.4f}, Train Metric: {metric:.4f}, Train Loss 2: {loss2:.4f}, Train Metric 2: {metric2*1e4:.4f}')
-            print(f'  Test Loss: {loss_test:.4f}, Test Metric: {metric_test:.4f}, Test Loss 2: {loss2_test:.4f}, Test Metric 2: {metric2_test*1e4:.4f}')
+            print(f'  Train Loss: {loss:.4f}, Train Metric: {metric:.4f}')
+            print(f'  Test Loss: {loss_test:.4f}, Test Metric: {metric_test:.4f}')
 
             if args.save_checkpoints is not None:
                 interval = np.abs(args.save_checkpoints)
@@ -122,13 +122,13 @@ def main(args):
                         save_dict['scheduler_state_dict'] = scheduler.state_dict()
 
                         torch.save(
-                            save_dict, './results/checkpoint_epoch{}_{}.pth'.format(nepoch_tot, args.tag)
+                            save_dict, './data/checkpoint_epoch{}_{}.pth'.format(nepoch_tot, args.tag)
                         )
-                    file = open('./results/training_result_epoch{}_{}.txt'.format(nepoch_tot, args.tag), 'w')
+                    file = open('./data/training_result_epoch{}_{}.txt'.format(nepoch_tot, args.tag), 'w')
                     file.write(f'{epoch}  {loss:.4f}  {metric:.4f}  {loss_test:.4f}  {metric_test:.4f}\n')
                     file.close()
         
             scheduler.step()
             nepoch_tot += 1
 
-    torch.save(model, './results/model_{}.pth'.format(args.tag))
+    torch.save(model, './data/model_{}.pth'.format(args.tag))
