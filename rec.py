@@ -1,3 +1,11 @@
+"""
+Author: Guang Zhao
+Email: zhaog@ihep.ac.cn
+Created: 2026-01-16
+
+Description: Reconstruction code for GraphPT
+"""
+
 import torch
 from dataset import *
 from model import *

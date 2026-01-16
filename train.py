@@ -1,3 +1,11 @@
+"""
+Author: Guang Zhao
+Email: zhaog@ihep.ac.cn
+Created: 2026-01-16
+
+Description: Training code for GraphPT
+"""
+
 import torch
 from torch import nn
 from torch_geometric.loader import DataLoader

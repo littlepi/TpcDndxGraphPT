@@ -1,3 +1,12 @@
+"""
+Author: Guang Zhao
+Email: zhaog@ihep.ac.cn
+Created: 2026-01-16
+
+Description: Dataset definition for TPC data
+"""
+
+
 import torch
 from torch_geometric.data import Data, Dataset
 import random

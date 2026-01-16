@@ -1,3 +1,12 @@
+"""
+Author: Guang Zhao
+Email: zhaog@ihep.ac.cn
+Created: 2026-01-16
+
+Based on: PyTorch Geometric
+Description: Model definition for GraphPT
+"""
+
 import math
 import torch
 from torch import nn

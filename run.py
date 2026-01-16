@@ -1,3 +1,11 @@
+"""
+Author: Guang Zhao
+Email: zhaog@ihep.ac.cn
+Created: 2026-01-16
+
+Description: Main run script for GraphPT
+"""
+
 import torch
 import argparse
 import train, rec
